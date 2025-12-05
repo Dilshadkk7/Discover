@@ -67,8 +67,6 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.updateAllDevicesToOffline()
-
         nsdManager = getSystemService(Context.NSD_SERVICE) as NsdManager
 
         binding.logoutButton.setOnClickListener {
@@ -131,6 +129,9 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        // Every time the app is resumed, mark all devices as offline and then
+        // start a fresh discovery to find currently online devices.
+        viewModel.updateAllDevicesToOffline()
         nsdManager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, discoveryListener)
     }
 
