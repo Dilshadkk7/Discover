@@ -39,7 +39,11 @@ class AuthActivity : AppCompatActivity() {
         }
 
         binding.loginButton.setOnClickListener {
-            viewModel.login()
+            if (isNetworkAvailable()) {
+                viewModel.login()
+            } else {
+                Toast.makeText(this, "No internet connection. Please connect and try again.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         // Check for silent auth on start
