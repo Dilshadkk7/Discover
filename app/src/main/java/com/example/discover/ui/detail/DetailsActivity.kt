@@ -18,16 +18,13 @@ class DetailsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val repository = DetailsRepository()
-        viewModel = ViewModelProvider(this, ViewModelFactory(repository)).get(DetailsViewModel::class.java)
+        val viewModelFactory = ViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(DetailsViewModel::class.java)
 
-        viewModel.ipAddress.observe(this) {
-            binding.ipAddress.text = it
+        viewModel.ipDetails.observe(this) {
+            binding.detailsTextView.text = it
         }
 
-        viewModel.geoInfo.observe(this) {
-            binding.geoInfo.text = it
-        }
-
-        viewModel.fetchPublicIp()
+        viewModel.fetchIpDetails()
     }
 }

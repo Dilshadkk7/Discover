@@ -8,16 +8,10 @@
     tools:context=".ui.detail.DetailsActivity">
 
     <TextView
-        android:id="@+id/ipAddress"
+        android:id="@+id/detailsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/geoInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
 
 </LinearLayout>

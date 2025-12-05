@@ -1,5 +1,6 @@
 package com.example.discover.ui.detail
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,31 +10,23 @@ import kotlinx.coroutines.launch
 
 class DetailsViewModel(private val repository: DetailsRepository) : ViewModel() {
 
-    private val _ipAddress = MutableLiveData<String>()
-    val ipAddress: LiveData<String> = _ipAddress
+    private val _ipDetails = MutableLiveData<String>()
+    val ipDetails: LiveData<String> = _ipDetails
 
-    private val _geoInfo = MutableLiveData<String>()
-    val geoInfo: LiveData<String> = _geoInfo
-
-    fun fetchPublicIp() {
+    fun fetchIpDetails() {
         viewModelScope.launch {
+            _ipDetails.postValue("Loading details...")
             try {
                 val ip = repository.getPublicIp()
-                _ipAddress.postValue(ip)
-                fetchGeoInfo(ip)
+                val details = repository.getIpDetails(ip)
+                _ipDetails.postValue(details)
             } catch (e: Exception) {
-                // Handle error
-            }
-        }
-    }
-
-    private fun fetchGeoInfo(ip: String) {
-        viewModelScope.launch {
-            try {
-                val info = repository.getGeoInfo(ip)
-                _geoInfo.postValue(info)
-            } catch (e: Exception) {
-                // Handle error
+                Log.e("DetailsViewModel", "Full exception details:", e)
+                val rootCause = e.cause ?: e
+                val errorType = rootCause.javaClass.simpleName
+                val errorMessage = rootCause.message ?: "No specific error message available."
+                val fullMessage = "Could not load details.\n\nReason: $errorType\nMessage: $errorMessage"
+                _ipDetails.postValue(fullMessage)
             }
         }
     }

@@ -27,7 +27,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var deviceAdapter: DeviceAdapter
     private lateinit var nsdManager: NsdManager
     private val devices = mutableListOf<Device>()
-    private val SERVICE_TYPE = "_http._tcp."
+    private val SERVICE_TYPE = "_airplay._tcp."
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
